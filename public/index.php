@@ -6,8 +6,10 @@
  * Time: 9:57
  */
 
+// Получаем строку запрсоа (URL)
 $query = rtrim($_SERVER['QUERY_STRING'], '/'); // rtrim - обрезаем слэш в конце
 
+// Подключаем роутер
 require "../vendor/core/Router.php";
 require "../vendor/libs/functions.php";
 
@@ -16,8 +18,8 @@ Router::addRoutes('posts/add', ['controller' => 'Posts', 'action' => 'add']);
 Router::addRoutes('posts', ['controller' => 'Posts', 'action' => 'index']);
 Router::addRoutes('', ['controller' => 'Main', 'action' => 'index']);
 
-//debug(Router::getRoutes());
 
+// Вывод
 if (Router::matchRoute($query))
 {
     debug(Router::getRoute());
