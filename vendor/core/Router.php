@@ -65,6 +65,14 @@ class Router
         {
             if (preg_match("#$pattern#i", $url, $matches))
             {
+                foreach ($matches as $k => $v) {
+                    if (is_string($k)) {
+                        $route[$k] = $v;
+                    }
+                }
+                if (!isset($route['action'])) {
+                    $route['action'] = 'index';
+                }
                 self::$route = $route;
                 return true;
             }
@@ -72,13 +80,52 @@ class Router
         return false;
     }
 
+    /**
+     * Перенаправляет URL по корректному маршруту
+     *
+     * @param string $url входящий URL
+     */
     public static function dispatch($url)
     {
         if (self::matchRoute($url)) {
-            echo "OK";
-        }else{
+            $controller = self::upperCaseCamel(self::$route['controller']);
+            if (class_exists($controller)) {
+                $cObj = new $controller;
+                $action = self::lowerCaseCamel(self::$route['action']) . 'Action';
+                if (method_exists($cObj, $action)) {
+                    $cObj->$action();
+                } else {
+                    echo "Метод <b>$controller::$action</b> не найден!";
+                }
+            } else {
+                echo "Контроллер <b>$controller</b> не найден!";
+            }
+        } else {
             http_response_code(404);
             include "404.html";
         }
+    }
+
+    /**
+     *
+     *
+     * @param $name
+     * @return mixed
+     */
+    protected static function upperCaseCamel($name)
+    {
+        $name = str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+        return $name;
+    }
+
+    /**
+     *
+     *
+     * @param $name
+     * @return mixed
+     */
+    protected static function lowerCaseCamel($name)
+    {
+        return lcfirst(self::upperCaseCamel($name));
     }
 }
