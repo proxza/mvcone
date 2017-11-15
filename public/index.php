@@ -13,17 +13,9 @@ $query = rtrim($_SERVER['QUERY_STRING'], '/'); // rtrim - обрезаем сл�
 require "../vendor/core/Router.php";
 require "../vendor/libs/functions.php";
 
-// Контроллеры
-Router::addRoutes('posts/add', ['controller' => 'Posts', 'action' => 'add']);
-Router::addRoutes('posts', ['controller' => 'Posts', 'action' => 'index']);
-Router::addRoutes('', ['controller' => 'Main', 'action' => 'index']);
-
+// Правила контроллеров
+Router::addRoutes('^$', ['controller' => 'Main', 'action' => 'index']); // Пустая строка
+Router::addRoutes('^(?P<controller>[a-z-]+)/?(?P<action>[a-z-]+)?$'); // Разрешаем использовать латиницу, знак тире и один или более символов
 
 // Вывод
-if (Router::matchRoute($query))
-{
-    debug(Router::getRoute());
-} else {
-    echo "Нет такого маршрута";
-    exit;
-}
+Router::dispatch($query);

@@ -8,38 +8,77 @@
  */
 class Router
 {
-    protected static $routes = []; // Таблица маршрутов
-    protected static $route = []; // Action (конкретный маршрут)
+    /**
+     * Таблица маршрутов
+     *
+     * @var array
+     */
+    protected static $routes = [];
 
-    // Добавления маршрута
+    /**
+     * Текущий маршрут
+     *
+     * @var array
+     */
+    protected static $route = [];
+
+    /**
+     * Добавляет маршрут в таблицу маршрутов
+     *
+     * @param string $regexp регуляргле выражение маршрута
+     * @param array $route маршрут ([controller, action, params])
+     */
     public static function addRoutes($regexp, $route = [])
     {
         self::$routes[$regexp] = $route;
     }
 
-    // Отображение созданных маршрутов
+    /**
+     * Возвращает таблицу маршрутов
+     *
+     * @return array
+     */
     public static function getRoutes()
     {
         return self::$routes;
     }
 
-    // Отображение текущего маршрута
+    /**
+     * Возвращает текущий маршрут (controller, action, [params])
+     *
+     * @return array
+     */
     public static function getRoute()
     {
         return self::$route;
     }
 
-    // Разбиваем наш маршрут введеный в URL
+    /**
+     * Ищет URL в таблице маршрутов
+     *
+     * @param string $url входящий URL
+     * @return bool
+     */
     public static function matchRoute($url)
     {
         foreach (self::$routes as $pattern => $route)
         {
-            if ($url == $pattern)
+            if (preg_match("#$pattern#i", $url, $matches))
             {
                 self::$route = $route;
                 return true;
             }
         }
         return false;
+    }
+
+    public static function dispatch($url)
+    {
+        if (self::matchRoute($url)) {
+            echo "OK";
+        }else{
+            http_response_code(404);
+            include "404.html";
+        }
     }
 }
