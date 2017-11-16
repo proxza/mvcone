@@ -1,11 +1,7 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: n00b.DetecteD
- * Date: 15.11.2017
- * Time: 9:44
- */
+namespace app\controllers;
+
 class Main
 {
     public function indexAction()

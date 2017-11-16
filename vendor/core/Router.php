@@ -1,11 +1,7 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: n00b.DetecteD
- * Date: 14.11.2017
- * Time: 14:04
- */
+namespace vendor\core;
+
 class Router
 {
     /**
@@ -73,6 +69,7 @@ class Router
                 if (!isset($route['action'])) {
                     $route['action'] = 'index';
                 }
+                $route['controller'] = self::upperCaseCamel($route['controller']);
                 self::$route = $route;
                 return true;
             }
@@ -87,10 +84,11 @@ class Router
      */
     public static function dispatch($url)
     {
+        $url = self::removeQueryString($url);
         if (self::matchRoute($url)) {
-            $controller = self::upperCaseCamel(self::$route['controller']);
+            $controller = 'app\controllers\\' . self::$route['controller'];
             if (class_exists($controller)) {
-                $cObj = new $controller;
+                $cObj = new $controller(self::$route);
                 $action = self::lowerCaseCamel(self::$route['action']) . 'Action';
                 if (method_exists($cObj, $action)) {
                     $cObj->$action();
@@ -127,5 +125,22 @@ class Router
     protected static function lowerCaseCamel($name)
     {
         return lcfirst(self::upperCaseCamel($name));
+    }
+
+    /**
+     *
+     *
+     * @param $url
+     */
+    protected static function removeQueryString($url)
+    {
+        if ($url) {
+            $params = explode('&', $url, 2);
+            if (false === strpos($params[0], '=')) {
+                return rtrim($params[0], '/');
+            } else {
+                return '';
+            }
+        }
     }
 }

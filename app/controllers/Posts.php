@@ -1,15 +1,18 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: n00b.DetecteD
- * Date: 15.11.2017
- * Time: 9:44
- */
-class Posts
+namespace app\controllers;
+
+use vendor\core\base\Controller;
+
+class Posts extends Controller
 {
     public function indexAction()
     {
         echo "Posts::index";
+    }
+
+    public function testAction()
+    {
+        echo "Posts::test";
     }
 }
