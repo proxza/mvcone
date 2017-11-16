@@ -92,6 +92,7 @@ class Router
                 $action = self::lowerCaseCamel(self::$route['action']) . 'Action';
                 if (method_exists($cObj, $action)) {
                     $cObj->$action();
+                    $cObj->getView();
                 } else {
                     echo "Метод <b>$controller::$action</b> не найден!";
                 }
@@ -105,10 +106,10 @@ class Router
     }
 
     /**
+     * Преобразует имена к виду CamelCase
      *
-     *
-     * @param $name
-     * @return mixed
+     * @param string $name строка для преобразования
+     * @return string
      */
     protected static function upperCaseCamel($name)
     {
@@ -117,10 +118,10 @@ class Router
     }
 
     /**
+     * Преобразует имена к виду camelCase
      *
-     *
-     * @param $name
-     * @return mixed
+     * @param string $name строка для преобразования
+     * @return string
      */
     protected static function lowerCaseCamel($name)
     {
@@ -128,9 +129,10 @@ class Router
     }
 
     /**
+     * Возвращает строку БЕЗ GET параметров
      *
-     *
-     * @param $url
+     * @param string $url запрос URL
+     * @return string
      */
     protected static function removeQueryString($url)
     {

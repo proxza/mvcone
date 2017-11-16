@@ -10,6 +10,7 @@ define("WWW", __DIR__); // Public директория
 define("CORE", dirname(__DIR__) . '/vendor/core'); // Папка с ядром
 define("ROOT", dirname(__DIR__)); // Корневая директория
 define("APP", dirname(__DIR__) . '/app'); // Папка с контроллерами, моделями и вьювами
+define("LAYOUT", 'default');
 
 // Подключаем роутер
 require "../vendor/libs/functions.php";
