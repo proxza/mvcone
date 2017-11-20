@@ -12,9 +12,12 @@ class MainController extends AppController
     {
         $model = new Main;
         $posts = $model->findAll();
+        //$post = $model->findOne(1);
+        $post = $model->findLike("rt", "content");
 
-        var_dump($posts);
+        debug($post);
+
         $title = 'MainPage Title';
-        $this->set(compact('title'));
+        $this->set(compact('title', 'posts'));
     }
 }
