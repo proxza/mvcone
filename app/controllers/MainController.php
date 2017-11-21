@@ -11,13 +11,11 @@ class MainController extends AppController
     public function indexAction()
     {
         $model = new Main;
-        $posts = $model->findAll();
-        //$post = $model->findOne(1);
-        $post = $model->findLike("rt", "content");
-
-        debug($post);
-
-        $title = 'MainPage Title';
-        $this->set(compact('title', 'posts'));
+        $posts = \R::findAll('posts');
+        $menu = $this->menu;
+        //$title = 'MainPage Title';
+        $this->setMeta('Главная страница', 'Описание страницы', 'Ключевые слова');
+        $meta = $this->meta;
+        $this->set(compact('meta', 'posts', 'menu'));
     }
 }

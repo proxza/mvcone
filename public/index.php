@@ -9,6 +9,7 @@ $query = rtrim($_SERVER['QUERY_STRING'], '/'); // rtrim - обрезаем сл�
 define("WWW", __DIR__); // Public директория
 define("CORE", dirname(__DIR__) . '/vendor/core'); // Папка с ядром
 define("ROOT", dirname(__DIR__)); // Корневая директория
+define("LIBS", dirname(__DIR__) . '/vendor/libs'); // Libs
 define("APP", dirname(__DIR__) . '/app'); // Папка с контроллерами, моделями и вьювами
 define("LAYOUT", 'default');
 

@@ -6,6 +6,8 @@ class PageController extends AppController
 {
     public function viewAction()
     {
-        echo "Page::view";
+        $menu = $this->menu;
+        $title = 'MainPage Title';
+        $this->set(compact('title', 'menu'));
     }
 }
